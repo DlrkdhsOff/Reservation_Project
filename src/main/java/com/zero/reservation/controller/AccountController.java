@@ -22,7 +22,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(value = {"/create/account", "/create/admin-account"})
-    public ResponseEntity<?> createAccount(@Valid @RequestBody MemberDTO memberDTO,
+    public ResponseEntity<Response> createAccount(@Valid @RequestBody MemberDTO memberDTO,
                                            HttpServletRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldError();
@@ -42,8 +42,7 @@ public class AccountController {
         if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldError();
             if (fieldError != null) {
-                Response result = new Response(false, fieldError.getDefaultMessage());
-                System.out.println("fieldError.getDefaultMessage() = " + fieldError.getDefaultMessage());
+                Response result = new Response(false, bindingResult.getFieldError().getDefaultMessage());
                 return ResponseEntity.ok().body(result);
             }
         }

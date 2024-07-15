@@ -6,9 +6,6 @@ import lombok.Data;
 @Data
 public class AdminDTO {
 
-    @NotNull(message = "아이디를 입력해주세요")
-    private String userId;
-
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;
 

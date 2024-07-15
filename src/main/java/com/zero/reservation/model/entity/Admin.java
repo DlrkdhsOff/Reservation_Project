@@ -2,9 +2,7 @@ package com.zero.reservation.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -12,6 +10,8 @@ import java.time.LocalDate;
 @Setter
 @Entity(name = "admin")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Admin {
 
     @Id

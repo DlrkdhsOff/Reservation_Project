@@ -1,11 +1,15 @@
 package com.zero.reservation.service;
 
 import com.zero.reservation.model.Response;
+import com.zero.reservation.model.dto.AdminDTO;
+import com.zero.reservation.model.entity.Admin;
 import com.zero.reservation.model.entity.Member;
 import com.zero.reservation.repository.AccountRepository;
+import com.zero.reservation.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -14,7 +18,9 @@ public class AdminService {
 
     private final AccountRepository accountRepository;
 
-    public Response addStore(String userId) {
+    private final AdminRepository adminRepository;
+
+    public Response checkAdmin(String userId) {
         Optional<Member> optionalMember = accountRepository.findById(userId);
 
         Member member = optionalMember.get();
@@ -30,4 +36,23 @@ public class AdminService {
 
         return new Response(result, message);
     }
+
+
+    public Response addStore(AdminDTO adminDTO, String userId) {
+
+        if (adminRepository.existsByUserIdAndStoreName(userId, adminDTO.getStoreName())) {
+            return new Response(false, "이미 등록한 매장입니다.");
+        }
+
+        Admin admin = adminRepository.save(Admin.builder()
+                .userId(userId)
+                .storeName(adminDTO.getStoreName())
+                .storeAddress(adminDTO.getStoreAddress())
+                .storeInfo(adminDTO.getStoreInfo())
+                .registrationDate(LocalDate.now())
+                .build());
+
+        return new Response(true, "매장을 등록하였습니다.");
+    }
+
 }
