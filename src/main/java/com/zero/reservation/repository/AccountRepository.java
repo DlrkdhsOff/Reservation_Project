@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Member, String> {
     boolean existsByUserId(String userId);
+
+    Member findByUserIdAndPassword(String userId, String password);
 }
