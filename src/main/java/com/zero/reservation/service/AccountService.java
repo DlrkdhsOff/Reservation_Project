@@ -16,20 +16,29 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
 
-    public Response createAccount(MemberDTO memberDTO) {
+    public Response createAccount(MemberDTO memberDTO, String requestURI) {
+
         if (accountRepository.existsByUserId(memberDTO.getUserId())) {
             return new Response(false, "이미 존재하는 회원입니다.");
         }
 
-        accountRepository.save(Member.builder()
+        Member member = accountRepository.save(Member.builder()
                 .userId(memberDTO.getUserId())
                 .password(memberDTO.getPassword())
                 .name(memberDTO.getName())
                 .tel(memberDTO.getTel())
                 .joinDate(LocalDate.now())
-                .isAdmin(false)
+                .isAdmin("/create/admin-account".equals(requestURI))
                 .build());
 
-        return new Response(true, "회원 가입에 성공하였습니다.");
+        String message;
+        if (member.isAdmin()) {
+            message = "파트너 회원 가입에 성공하였습니다.";
+        } else {
+            message = "회원 가입에 성공하였습니다.";
+        }
+
+        return new Response(true, message);
     }
+
 }
