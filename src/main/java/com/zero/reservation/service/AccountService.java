@@ -15,7 +15,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-
     public Response createAccount(MemberDTO memberDTO, String requestURI) {
 
         if (accountRepository.existsByUserId(memberDTO.getUserId())) {
@@ -39,6 +38,16 @@ public class AccountService {
         }
 
         return new Response(true, message);
+    }
+
+    public Response login(String userId, String password) {
+        Member result = accountRepository.findByUserIdAndPassword(userId, password);
+
+        if (result == null) {
+            return new Response(false, "존재하지 않은 회원 입니다.");
+        }
+
+        return new Response(true, "로그인 성공 하였습니다.");
     }
 
 }
