@@ -4,8 +4,7 @@ import com.zero.reservation.model.Response;
 import com.zero.reservation.model.dto.AdminDTO;
 import com.zero.reservation.model.entity.Admin;
 import com.zero.reservation.model.entity.Member;
-import com.zero.reservation.repository.AccountRepository;
-import com.zero.reservation.repository.AdminRepository;
+import com.zero.reservation.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
