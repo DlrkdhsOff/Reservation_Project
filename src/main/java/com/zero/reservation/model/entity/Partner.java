@@ -8,11 +8,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity(name = "admin")
+@Entity(name = "partner")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Admin {
+public class Partner {
 
     @Id
     private String userId;

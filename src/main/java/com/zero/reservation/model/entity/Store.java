@@ -22,7 +22,7 @@ public class Store {
 
     private String userId;
     private String userName;
-    private String adminId;
+    private String partnerId;
     private String storeName;
     private String reservation;
     private LocalDateTime reservationDate;

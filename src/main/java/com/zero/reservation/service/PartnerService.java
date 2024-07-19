@@ -1,10 +1,11 @@
 package com.zero.reservation.service;
 
 import com.zero.reservation.model.Response;
-import com.zero.reservation.model.dto.AdminDTO;
-import com.zero.reservation.model.entity.Admin;
+import com.zero.reservation.model.dto.PartnerDTO;
 import com.zero.reservation.model.entity.Member;
-import com.zero.reservation.repository.*;
+import com.zero.reservation.model.entity.Partner;
+import com.zero.reservation.repository.AccountRepository;
+import com.zero.reservation.repository.PartnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService {
+public class PartnerService {
 
     private final AccountRepository accountRepository;
 
-    private final AdminRepository adminRepository;
+    private final PartnerRepository partnerRepository;
 
     public Response checkAdmin(String userId) {
         Optional<Member> optionalMember = accountRepository.findById(userId);
@@ -26,7 +27,7 @@ public class AdminService {
 
         boolean result = false;
         String message;
-        if (member.isAdmin()) {
+        if (member.isPartner()) {
             result = true;
             message = "등록하실 매장 명, 상점 위치, 상점 상세 정보를 입력하세요.";
         } else {
@@ -37,17 +38,17 @@ public class AdminService {
     }
 
 
-    public Response addStore(AdminDTO adminDTO, String userId) {
+    public Response addStore(PartnerDTO partnerDTO, String userId) {
 
-        if (adminRepository.existsByUserIdAndStoreName(userId, adminDTO.getStoreName())) {
+        if (partnerRepository.existsByUserIdAndStoreName(userId, partnerDTO.getStoreName())) {
             return new Response(false, "이미 등록한 매장입니다.");
         }
 
-        Admin admin = adminRepository.save(Admin.builder()
+        Partner partner = partnerRepository.save(Partner.builder()
                 .userId(userId)
-                .storeName(adminDTO.getStoreName())
-                .storeAddress(adminDTO.getStoreAddress())
-                .storeInfo(adminDTO.getStoreInfo())
+                .storeName(partnerDTO.getStoreName())
+                .storeAddress(partnerDTO.getStoreAddress())
+                .storeInfo(partnerDTO.getStoreInfo())
                 .registrationDate(LocalDate.now())
                 .build());
 

@@ -1,7 +1,7 @@
 package com.zero.reservation.model.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class MemberDTO {

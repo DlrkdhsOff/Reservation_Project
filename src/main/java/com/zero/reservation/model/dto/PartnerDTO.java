@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AdminDTO {
+public class PartnerDTO {
 
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;

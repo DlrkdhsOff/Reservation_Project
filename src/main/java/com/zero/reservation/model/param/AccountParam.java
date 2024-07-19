@@ -1,7 +1,7 @@
 package com.zero.reservation.model.param;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class AccountParam {

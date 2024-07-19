@@ -27,11 +27,11 @@ public class AccountService {
                 .name(memberDTO.getName())
                 .tel(memberDTO.getTel())
                 .joinDate(LocalDate.now())
-                .isAdmin("/create/admin-account".equals(requestURI))
+                .isPartner("/create/partner-account".equals(requestURI))
                 .build());
 
         String message;
-        if (member.isAdmin()) {
+        if (member.isPartner()) {
             message = "파트너 회원 가입에 성공하였습니다.";
         } else {
             message = "회원 가입에 성공하였습니다.";

@@ -22,6 +22,6 @@ public class Member {
     private String name;
     private String tel;
     private LocalDate joinDate;
-    private boolean isAdmin;
+    private boolean isPartner;
 
 }
