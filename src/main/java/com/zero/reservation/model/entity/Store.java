@@ -18,13 +18,12 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long no;
+    private long id;
 
-    private String userId;
+    private String partnerId;
     private String userName;
-    private String adminId;
+    private String userTel;
     private String storeName;
-    private String reservation;
     private LocalDateTime reservationDate;
     private String review;
 }

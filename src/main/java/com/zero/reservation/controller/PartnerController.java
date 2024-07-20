@@ -1,10 +1,8 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.Response;
-import com.zero.reservation.model.dto.AdminDTO;
-import com.zero.reservation.model.entity.Admin;
-import com.zero.reservation.model.param.AccountParam;
-import com.zero.reservation.service.AdminService;
+import com.zero.reservation.model.param.Response;
+import com.zero.reservation.model.dto.PartnerDTO;
+import com.zero.reservation.service.PartnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,27 +12,27 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/partner")
 @RequiredArgsConstructor
-public class AdminController {
+public class PartnerController {
 
-    private final AdminService adminService;
+    private final PartnerService partnerService;
 
     @GetMapping("/add-store")
     public ResponseEntity<?> addStore(HttpServletRequest request) {
-        String userId = (String) request.getSession().getAttribute("userId");
+        String email = (String) request.getSession().getAttribute("email");
 
-        if (userId == null || userId.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             return ResponseEntity.ok().body(new Response(false, "로그인을 해주세요"));
         }
 
-        Response result = adminService.checkAdmin(userId);
+        Response result = partnerService.checkAdmin(email);
 
         return ResponseEntity.ok().body(result);
     }
 
     @PostMapping("/add-store")
-    public ResponseEntity<Response> addStore(@Valid @RequestBody AdminDTO adminDTO,
+    public ResponseEntity<Response> addStore(@Valid @RequestBody PartnerDTO partnerDTO,
                                              HttpServletRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("AccountController.createAccount");
@@ -44,8 +42,8 @@ public class AdminController {
                 return ResponseEntity.ok().body(result);
             }
         }
-        String userId = (String) request.getSession().getAttribute("userId");
-        Response result = adminService.addStore(adminDTO, userId);
+        String email = (String) request.getSession().getAttribute("email");
+        Response result = partnerService.addStore(partnerDTO, email);
 
         return ResponseEntity.ok().body(result);
     }

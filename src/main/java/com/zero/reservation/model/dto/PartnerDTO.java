@@ -4,10 +4,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AdminDTO {
+public class PartnerDTO {
 
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;
+
+    @NotNull(message = "매장 전화번호를 입력해주세요")
+    private String tel;
 
     @NotNull(message = "매장 위치를 입력해주세요")
     private String storeAddress;
