@@ -1,6 +1,6 @@
 package com.zero.reservation.service;
 
-import com.zero.reservation.model.Response;
+import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.PartnerDTO;
 import com.zero.reservation.model.entity.Member;
 import com.zero.reservation.model.entity.Partner;
@@ -44,7 +44,7 @@ public class PartnerService {
             return new Response(false, "이미 등록한 매장입니다.");
         }
 
-        Partner partner = partnerRepository.save(Partner.builder()
+        partnerRepository.save(Partner.builder()
                 .userId(userId)
                 .storeName(partnerDTO.getStoreName())
                 .storeAddress(partnerDTO.getStoreAddress())

@@ -1,4 +1,4 @@
-package com.zero.reservation.model;
+package com.zero.reservation.model.param;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

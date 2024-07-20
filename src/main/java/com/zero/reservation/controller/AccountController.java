@@ -1,6 +1,6 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.Response;
+import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.MemberDTO;
 import com.zero.reservation.model.param.AccountParam;
 import com.zero.reservation.service.AccountService;

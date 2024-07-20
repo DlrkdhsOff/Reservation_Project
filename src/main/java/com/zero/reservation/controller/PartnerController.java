@@ -1,6 +1,6 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.Response;
+import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.PartnerDTO;
 import com.zero.reservation.service.PartnerService;
 import jakarta.servlet.http.HttpServletRequest;

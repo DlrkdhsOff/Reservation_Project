@@ -1,6 +1,8 @@
 package com.zero.reservation.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -15,8 +17,10 @@ import java.time.LocalDate;
 public class Partner {
 
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long no;
 
+    private String userId;
     private String storeName;
     private String storeAddress;
     private String storeInfo;

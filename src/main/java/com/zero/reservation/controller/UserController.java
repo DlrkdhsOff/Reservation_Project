@@ -1,7 +1,7 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.Response;
-import com.zero.reservation.model.dto.UserDTO;
+import com.zero.reservation.model.param.Response;
+import com.zero.reservation.model.dto.StoreDetail;
 import com.zero.reservation.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/search-store")
     public ResponseEntity<?> searchStore() {
-        List<UserDTO> list = userService.getStoreList();
+        List<StoreDetail> list = userService.getStoreList();
 
         if (list.isEmpty()) {
             return ResponseEntity.ok().body(new Response(false, "등록된 매장이 없습니다."));
