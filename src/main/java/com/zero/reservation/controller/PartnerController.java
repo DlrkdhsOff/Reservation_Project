@@ -20,13 +20,13 @@ public class PartnerController {
 
     @GetMapping("/add-store")
     public ResponseEntity<?> addStore(HttpServletRequest request) {
-        String userId = (String) request.getSession().getAttribute("userId");
+        String email = (String) request.getSession().getAttribute("email");
 
-        if (userId == null || userId.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             return ResponseEntity.ok().body(new Response(false, "로그인을 해주세요"));
         }
 
-        Response result = partnerService.checkAdmin(userId);
+        Response result = partnerService.checkAdmin(email);
 
         return ResponseEntity.ok().body(result);
     }
@@ -42,8 +42,8 @@ public class PartnerController {
                 return ResponseEntity.ok().body(result);
             }
         }
-        String userId = (String) request.getSession().getAttribute("userId");
-        Response result = partnerService.addStore(partnerDTO, userId);
+        String email = (String) request.getSession().getAttribute("email");
+        Response result = partnerService.addStore(partnerDTO, email);
 
         return ResponseEntity.ok().body(result);
     }

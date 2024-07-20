@@ -1,5 +1,6 @@
-package com.zero.reservation.model.dto;
+package com.zero.reservation.model.result;
 
+import com.zero.reservation.model.entity.Partner;
 import lombok.Data;
 
 @Data

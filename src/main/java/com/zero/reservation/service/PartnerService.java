@@ -1,5 +1,7 @@
 package com.zero.reservation.service;
 
+import com.zero.reservation.model.entity.Member;
+import com.zero.reservation.model.entity.Partner;
 import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.PartnerDTO;
 import com.zero.reservation.repository.AccountRepository;
@@ -18,10 +20,8 @@ public class PartnerService {
 
     private final PartnerRepository partnerRepository;
 
-    public Response checkAdmin(String userId) {
-        Optional<Member> optionalMember = accountRepository.findById(userId);
-
-        Member member = optionalMember.get();
+    public Response checkAdmin(String email) {
+        Member member = accountRepository.findByEmail(email);
 
         boolean result = false;
         String message;
@@ -36,14 +36,14 @@ public class PartnerService {
     }
 
 
-    public Response addStore(PartnerDTO partnerDTO, String userId) {
+    public Response addStore(PartnerDTO partnerDTO, String email) {
 
-        if (partnerRepository.existsByUserIdAndStoreName(userId, partnerDTO.getStoreName())) {
+        if (partnerRepository.existsByEmailAndStoreName(email, partnerDTO.getStoreName())) {
             return new Response(false, "이미 등록한 매장입니다.");
         }
 
         partnerRepository.save(Partner.builder()
-                .userId(userId)
+                .email(email)
                 .storeName(partnerDTO.getStoreName())
                 .storeAddress(partnerDTO.getStoreAddress())
                 .storeInfo(partnerDTO.getStoreInfo())

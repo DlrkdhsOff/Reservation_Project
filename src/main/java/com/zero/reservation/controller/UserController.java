@@ -1,7 +1,7 @@
 package com.zero.reservation.controller;
 
 import com.zero.reservation.model.param.Response;
-import com.zero.reservation.model.dto.StoreDetail;
+import com.zero.reservation.model.result.StoreDetail;
 import com.zero.reservation.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

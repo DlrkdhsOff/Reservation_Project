@@ -46,10 +46,10 @@ public class AccountController {
             }
         }
 
-        Response result = accountService.login(accountParam.getUserId(), accountParam.getPassword());
+        Response result = accountService.login(accountParam.getEmail(), accountParam.getPassword());
 
         if (result.isResult()) {
-            request.getSession().setAttribute("userId",accountParam.getUserId());
+            request.getSession().setAttribute("email",accountParam.getEmail());
         }
 
         return ResponseEntity.ok().body(result);
