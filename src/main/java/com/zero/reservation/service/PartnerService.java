@@ -2,8 +2,6 @@ package com.zero.reservation.service;
 
 import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.PartnerDTO;
-import com.zero.reservation.model.entity.Member;
-import com.zero.reservation.model.entity.Partner;
 import com.zero.reservation.repository.AccountRepository;
 import com.zero.reservation.repository.PartnerRepository;
 import lombok.RequiredArgsConstructor;

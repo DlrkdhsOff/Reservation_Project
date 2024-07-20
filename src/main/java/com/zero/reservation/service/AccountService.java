@@ -2,7 +2,6 @@ package com.zero.reservation.service;
 
 import com.zero.reservation.model.param.Response;
 import com.zero.reservation.model.dto.MemberDTO;
-import com.zero.reservation.model.entity.Member;
 import com.zero.reservation.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
