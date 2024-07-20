@@ -1,19 +1,22 @@
 package com.zero.reservation.service;
 
+import com.zero.reservation.model.dto.MemberDTO;
 import com.zero.reservation.model.entity.Member;
 import com.zero.reservation.model.param.Response;
-import com.zero.reservation.model.dto.MemberDTO;
 import com.zero.reservation.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Response createAccount(MemberDTO memberDTO, String requestURI) {
 
@@ -21,9 +24,11 @@ public class AccountService {
             return new Response(false, "이미 존재하는 회원입니다.");
         }
 
+        String password = passwordEncoder.encode(memberDTO.getPassword());
+
         Member member = accountRepository.save(Member.builder()
                 .email(memberDTO.getEmail())
-                .password(memberDTO.getPassword())
+                .password(password)
                 .userName(memberDTO.getName())
                 .tel(memberDTO.getTel())
                 .joinDate(LocalDate.now())
@@ -41,17 +46,18 @@ public class AccountService {
     }
 
     public Response login(String email, String password) {
-        Member result = accountRepository.findByEmail(email);
+        Optional<Member> optionalMember = accountRepository.findByEmail(email);
 
-        if (result == null) {
+        if (optionalMember.isEmpty()) {
             return new Response(false, "존재하지 않은 회원 입니다.");
         }
 
-        if (!(password.equals(result.getPassword()))) {
+        Member member = optionalMember.get();
+
+        if (!passwordEncoder.matches(password, member.getPassword())) {
             return new Response(false, "비밀번호가 일치 하지 않습니다.");
         }
 
         return new Response(true, "로그인 하였습니다.");
     }
-
 }

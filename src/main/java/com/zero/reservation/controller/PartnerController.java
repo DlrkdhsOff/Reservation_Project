@@ -18,18 +18,18 @@ public class PartnerController {
 
     private final PartnerService partnerService;
 
-    @GetMapping("/add-store")
-    public ResponseEntity<?> addStore(HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-
-        if (email == null || email.isEmpty()) {
-            return ResponseEntity.ok().body(new Response(false, "로그인을 해주세요"));
-        }
-
-        Response result = partnerService.checkAdmin(email);
-
-        return ResponseEntity.ok().body(result);
-    }
+//    @GetMapping("/add-store")
+//    public ResponseEntity<?> addStore(HttpServletRequest request) {
+//        String email = (String) request.getSession().getAttribute("email");
+//
+//        if (email == null || email.isEmpty()) {
+//            return ResponseEntity.ok().body(new Response(false, "로그인을 해주세요"));
+//        }
+//
+//        Response result = partnerService.checkAdmin(email);
+//
+//        return ResponseEntity.ok().body(result);
+//    }
 
     @PostMapping("/add-store")
     public ResponseEntity<Response> addStore(@Valid @RequestBody PartnerDTO partnerDTO,

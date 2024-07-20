@@ -52,6 +52,7 @@ public class AccountController {
             request.getSession().setAttribute("email",accountParam.getEmail());
         }
 
+        System.out.println("로그인 성공");
         return ResponseEntity.ok().body(result);
     }
 

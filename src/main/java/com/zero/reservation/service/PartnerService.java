@@ -20,20 +20,20 @@ public class PartnerService {
 
     private final PartnerRepository partnerRepository;
 
-    public Response checkAdmin(String email) {
-        Member member = accountRepository.findByEmail(email);
-
-        boolean result = false;
-        String message;
-        if (member.isPartner()) {
-            result = true;
-            message = "등록하실 매장 명, 상점 위치, 상점 상세 정보를 입력하세요.";
-        } else {
-            message = "파트너 회원이 아닙니다 파트너 회원 가입을 해주세요.";
-        }
-
-        return new Response(result, message);
-    }
+//    public Response checkAdmin(String email) {
+//        Member member = accountRepository.findByEmail(email);
+//
+//        boolean result = false;
+//        String message;
+//        if (member.isPartner()) {
+//            result = true;
+//            message = "등록하실 매장 명, 상점 위치, 상점 상세 정보를 입력하세요.";
+//        } else {
+//            message = "파트너 회원이 아닙니다 파트너 회원 가입을 해주세요.";
+//        }
+//
+//        return new Response(result, message);
+//    }
 
 
     public Response addStore(PartnerDTO partnerDTO, String email) {
