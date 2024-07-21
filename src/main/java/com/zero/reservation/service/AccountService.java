@@ -1,8 +1,8 @@
 package com.zero.reservation.service;
 
 import com.zero.reservation.entity.UserEntity;
-import com.zero.reservation.model.parameter.common.LoginParameter;
-import com.zero.reservation.model.parameter.common.SignUpParameters;
+import com.zero.reservation.model.dto.common.LoginDTO;
+import com.zero.reservation.model.dto.common.SignUpDTO;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.Status;
@@ -14,35 +14,43 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class AccountService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public Response signUp(SignUpParameters request) {
+    public Response signUp(SignUpDTO parameter, String requestURI) {
 
-        if(userRepository.existsByUserId(request.getUserId())){
+        if(userRepository.existsByUserId(parameter.getUserId())){
             return new Response(Status.SIGNUP_FAILED_DUPLICATE_ID);
         }
-        log.info("request: {}", request);
+        log.info("request: {}", parameter);
 
 
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        parameter.setPassword(passwordEncoder.encode(parameter.getPassword()));
 
-        userRepository.save(SignUpParameters.of(request, "ROLE_USER"));
+        String role = "ROLE_USER";
+        boolean status = false;
+        if ("/partner-signUp".equals(requestURI)) {
+            role = "ROLE_PARTNER";
+            status = true;
+        }
 
-        return new Response(Status.SUCCESS_SIGNUP);
+        userRepository.save(SignUpDTO.of(parameter, role));
+
+        return new Response(status ? Status.SUCCESS_PARTNER_SIGNUP: Status.SUCCESS_SIGNUP);
     }
 
-    public Response login(LoginParameter request){
 
-        UserEntity user = userRepository.findByUserId(request.getUserId());
+    public Response login(LoginDTO parameter){
+
+        UserEntity user = userRepository.findByUserId(parameter.getUserId());
 
         if (user == null) {
             return new Response(Status.FAILED_LOGIN_NOT_FOUND_USER);
         }
 
-        String rawPassword = request.getPassword();
+        String rawPassword = parameter.getPassword();
 
         if(!passwordEncoder.matches(rawPassword, user.getPassword())){
             return new Response(Status.FAILED_LOGIN_PASSWORD_DOES_NOT_MATCH);

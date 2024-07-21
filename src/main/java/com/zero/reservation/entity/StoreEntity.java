@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "partner")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-public class PartnerEntity {
+public class StoreEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +25,6 @@ public class PartnerEntity {
     private String storeAddress;    // 매장 주소
     private String storeNumber;     // 매장 전화번호
     private String storeInfo;       // 매장 상세 정보
+    private LocalDateTime addDt;    // 매장 등록일
 
 }
