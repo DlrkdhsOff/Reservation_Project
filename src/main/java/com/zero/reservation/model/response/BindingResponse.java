@@ -1,13 +1,13 @@
-package com.zero.reservation.model.param;
+package com.zero.reservation.model.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Response {
-    boolean result;
+public class BindingResponse {
+    boolean status;
     String message;
 }
