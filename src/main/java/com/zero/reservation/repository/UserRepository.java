@@ -1,9 +1,12 @@
 package com.zero.reservation.repository;
 
-import com.zero.reservation.model.entity.Store;
+import com.zero.reservation.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<Store, Long> {
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity,Long> {
+    boolean existsByUserId(String userId);
 
-
+    UserEntity findByUserId(String userId);
 }

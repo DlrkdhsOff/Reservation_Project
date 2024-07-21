@@ -1,13 +1,12 @@
-package com.zero.reservation.model.param;
+package com.zero.reservation.model.parameter.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AccountParam {
-
+public class LoginParameter {
     @NotNull(message = "아이디를 입력해주세요")
-    private String email;
+    private String userId;
 
     @NotNull(message = "비밀번호를 입력해주세요")
     private String password;
