@@ -1,21 +1,20 @@
 package com.zero.reservation.controller;
 
+import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.model.dto.partner.StoreDTO;
-import com.zero.reservation.model.response.BindingResponse;
-import com.zero.reservation.model.response.Response;
-import com.zero.reservation.service.AccountService;
-import com.zero.reservation.service.PartnerService;
+import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
+import com.zero.reservation.model.response.*;
+import com.zero.reservation.service.*;
+import com.zero.reservation.status.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.*;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -31,14 +30,12 @@ public class PartnerController {
     private final PartnerService partnerService;
 
 
-    @PostMapping("add-store")
+    @PostMapping("add")
     public ResponseEntity<?> addStore(@RequestBody @Valid StoreDTO parameter,
                                       BindingResult bindingResult, HttpServletRequest request) {
 
         log.info("parameter: {}", parameter);
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.ok(failedResult(bindingResult));
-        }
+        failedResult(bindingResult);
 
         String userId = (String) request.getSession().getAttribute("userId");
 
@@ -47,13 +44,31 @@ public class PartnerController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("store-list")
+    public ResponseEntity<?> getStoreList(HttpServletRequest request) {
+        String userId = (String) request.getSession().getAttribute("userId");
+
+        List<StoreEntity> list = partnerService.getStoreList(userId);
+        if (list.isEmpty()) {
+            return ResponseEntity.ok(Status.NOT_FOUND_STORE);
+        }
+        return ResponseEntity.ok(list);
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateStore(@RequestBody @Valid UpdateStoreDTO parameter,
+                                         BindingResult bindingResult, HttpServletRequest request) {
+
+        failedResult(bindingResult);
+
+        String userId = (String) request.getSession().getAttribute("userId");
+
+        return ResponseEntity.ok(partnerService.updateStore(parameter, userId));
+    }
+
 //    @GetMapping("/user/list")
 //    public ResponseEntity<StoreListResponse> getStoreList(){
 //        return ResponseEntity.ok(storeService.getStoreList());
-//    }
-//    @PatchMapping("/update")
-//    public ResponseEntity<StoreUpdateResponse> updateStore(@RequestBody @Valid StoreUpdateRequest request){
-//        return ResponseEntity.ok(storeService.updateStore(request));
 //    }
 //
 //    @DeleteMapping("/remove")
@@ -65,13 +80,15 @@ public class PartnerController {
 
     // 매개변수가 null일 경우
     private BindingResponse failedResult(BindingResult bindingResult) {
-        BindingResponse result = new BindingResponse();
         if (bindingResult.hasErrors()) {
-            FieldError fieldError = bindingResult.getFieldError();
-            if (fieldError != null) {
-                result = new BindingResponse(false, bindingResult.getFieldError().getDefaultMessage());
+            if (bindingResult.hasErrors()) {
+                FieldError fieldError = bindingResult.getFieldError();
+                if (fieldError != null) {
+                    return new BindingResponse(false, bindingResult.getFieldError().getDefaultMessage());
+                }
             }
         }
-        return result;
+
+        return null;
     }
 }

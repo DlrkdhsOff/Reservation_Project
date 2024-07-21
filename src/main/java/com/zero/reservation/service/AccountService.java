@@ -47,13 +47,13 @@ public class AccountService {
         UserEntity user = userRepository.findByUserId(parameter.getUserId());
 
         if (user == null) {
-            return new Response(Status.FAILED_LOGIN_NOT_FOUND_USER);
+            return new Response(Status.NOT_FOUND_USER);
         }
 
         String rawPassword = parameter.getPassword();
 
         if(!passwordEncoder.matches(rawPassword, user.getPassword())){
-            return new Response(Status.FAILED_LOGIN_PASSWORD_DOES_NOT_MATCH);
+            return new Response(Status.PASSWORD_DOES_NOT_MATCH);
         }
 
         return new Response(Status.SUCCESS_LOGIN);
