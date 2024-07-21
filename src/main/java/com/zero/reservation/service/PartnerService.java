@@ -38,12 +38,12 @@ public class PartnerService {
 
     public Response addStore(PartnerDTO partnerDTO, String email) {
 
-        if (partnerRepository.existsByEmailAndStoreName(email, partnerDTO.getStoreName())) {
+        if (partnerRepository.existsByUserIdAndStoreName(email, partnerDTO.getStoreName())) {
             return new Response(false, "이미 등록한 매장입니다.");
         }
 
         partnerRepository.save(Partner.builder()
-                .email(email)
+                .userId(email)
                 .storeName(partnerDTO.getStoreName())
                 .storeAddress(partnerDTO.getStoreAddress())
                 .storeInfo(partnerDTO.getStoreInfo())

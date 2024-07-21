@@ -19,9 +19,9 @@ public class Partner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long no;
 
-    private String email;                   // 파트너 이메일
+    private String userId;                  // 파트너 아이디
     private String storeName;               // 매장명
     private String tel;                     // 매장 전화번호
     private String storeAddress;            // 매장 주소

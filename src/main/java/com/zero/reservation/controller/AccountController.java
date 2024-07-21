@@ -5,9 +5,11 @@ import com.zero.reservation.model.dto.MemberDTO;
 import com.zero.reservation.model.param.AccountParam;
 import com.zero.reservation.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,25 +37,39 @@ public class AccountController {
         return ResponseEntity.ok().body(result);
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<Response> login(@Valid @RequestBody AccountParam accountParam,
+//                                           HttpServletRequest request, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            FieldError fieldError = bindingResult.getFieldError();
+//            if (fieldError != null) {
+//                Response result = new Response(false, bindingResult.getFieldError().getDefaultMessage());
+//                return ResponseEntity.ok().body(result);
+//            }
+//        }
+//
+//        Response result = accountService.login(accountParam.getEmail(), accountParam.getPassword());
+//
+//        if (result.isResult()) {
+//            request.getSession().setAttribute("email",accountParam.getEmail());
+//        }
+//
+//        System.out.println("로그인 성공");
+//        return ResponseEntity.ok().body(result);
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<Response> login(@Valid @RequestBody AccountParam accountParam,
-                                           HttpServletRequest request, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            FieldError fieldError = bindingResult.getFieldError();
-            if (fieldError != null) {
-                Response result = new Response(false, bindingResult.getFieldError().getDefaultMessage());
-                return ResponseEntity.ok().body(result);
-            }
+    public ResponseEntity<?> login(@Valid @RequestBody AccountParam accountParam, HttpServletRequest request) {
+        System.out.println("AccountController.login");
+            HttpSession session = request.getSession();
+            String message = (String) session.getAttribute("errorMessage");
+        if (message != null) {
+            System.out.println("message = " + message);
+        } else {
+            System.out.println("로그인 성공");
+            message = "로그인 성공";
         }
-
-        Response result = accountService.login(accountParam.getEmail(), accountParam.getPassword());
-
-        if (result.isResult()) {
-            request.getSession().setAttribute("email",accountParam.getEmail());
-        }
-
-        System.out.println("로그인 성공");
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(message);
     }
 
 
