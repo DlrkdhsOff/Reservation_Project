@@ -1,4 +1,4 @@
-package com.zero.reservation.model.parameter.common;
+package com.zero.reservation.model.dto.common;
 
 import com.zero.reservation.entity.UserEntity;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class SignUpParameters {
+public class SignUpDTO {
 
     @NotNull(message = "아이디를 입력해주세요")
     private String userId;
@@ -21,12 +21,12 @@ public class SignUpParameters {
     @NotNull(message = "전화번호를 입력해주세요")
     private String tel;
 
-    public static UserEntity of(SignUpParameters request, String role) {
+    public static UserEntity of(SignUpDTO parameter, String role) {
         return UserEntity.builder()
-                .userId(request.getUserId())
-                .password(request.getPassword())
-                .userName(request.getUserName())
-                .tel(request.getTel())
+                .userId(parameter.getUserId())
+                .password(parameter.getPassword())
+                .userName(parameter.getUserName())
+                .tel(parameter.getTel())
                 .regDt(LocalDateTime.now())
                 .role(role)
                 .build();

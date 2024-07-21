@@ -1,10 +1,10 @@
-package com.zero.reservation.model.parameter.common;
+package com.zero.reservation.model.dto.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class LoginParameter {
+public class LoginDTO {
     @NotNull(message = "아이디를 입력해주세요")
     private String userId;
 
