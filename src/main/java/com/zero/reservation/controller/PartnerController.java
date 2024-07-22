@@ -1,8 +1,8 @@
 package com.zero.reservation.controller;
 
 import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
-import com.zero.reservation.model.dto.partner.StoreDTO;
-import com.zero.reservation.model.dto.partner.StoreListDTO;
+import com.zero.reservation.model.dto.partner.AddStoreDTO;
+import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
@@ -35,7 +35,7 @@ public class PartnerController {
 
 
     @PostMapping("add")
-    public ResponseEntity<?> addStore(@RequestBody @Valid StoreDTO parameter,
+    public ResponseEntity<?> addStore(@RequestBody @Valid AddStoreDTO parameter,
                                       BindingResult bindingResult, HttpServletRequest request) {
 
         log.info("parameter: {}", parameter);

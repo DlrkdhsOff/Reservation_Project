@@ -1,4 +1,4 @@
-package com.zero.reservation.model.dto.partner;
+package com.zero.reservation.model.dto.common;
 
 import com.zero.reservation.entity.StoreEntity;
 import lombok.Data;
