@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class StoreDTO {
+public class StoreDTO {     // 매장 등록
 
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;

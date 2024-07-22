@@ -19,6 +19,7 @@ public class AccountService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    // 회원가입
     public Response signUp(SignUpDTO parameter, String requestURI) {
 
         if(userRepository.existsByUserId(parameter.getUserId())){
@@ -42,6 +43,7 @@ public class AccountService {
     }
 
 
+    // 로그인
     public Response login(LoginDTO parameter){
 
         UserEntity user = userRepository.findByUserId(parameter.getUserId());
