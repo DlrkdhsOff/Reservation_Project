@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UpdateStoreDTO {
+public class UpdateStoreDTO {     // 매장 정보 수정
     @NotNull(message = "매장 번호를 입력해주세요")
     private String no;
 
