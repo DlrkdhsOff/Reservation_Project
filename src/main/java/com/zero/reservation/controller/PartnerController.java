@@ -1,17 +1,21 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.entity.StoreEntity;
+import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
 import com.zero.reservation.model.dto.partner.StoreDTO;
+import com.zero.reservation.model.dto.partner.StoreListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
-import com.zero.reservation.model.response.*;
-import com.zero.reservation.service.*;
+import com.zero.reservation.model.response.BindingResponse;
+import com.zero.reservation.model.response.Response;
+import com.zero.reservation.service.AccountService;
+import com.zero.reservation.service.PartnerService;
 import com.zero.reservation.status.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,9 +52,13 @@ public class PartnerController {
     public ResponseEntity<?> getStoreList(HttpServletRequest request) {
         String userId = (String) request.getSession().getAttribute("userId");
 
-        List<StoreEntity> list = partnerService.getStoreList(userId);
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.ok(new Response(Status.NOT_LOGGING_IN));
+        }
+
+        List<StoreListDTO> list = partnerService.getStoreList(userId);
         if (list.isEmpty()) {
-            return ResponseEntity.ok(Status.NOT_FOUND_STORE);
+            return ResponseEntity.ok(new Response(Status.NOT_FOUND_STORE));
         }
         return ResponseEntity.ok(list);
     }
@@ -66,15 +74,13 @@ public class PartnerController {
         return ResponseEntity.ok(partnerService.updateStore(parameter, userId));
     }
 
-//    @GetMapping("/user/list")
-//    public ResponseEntity<StoreListResponse> getStoreList(){
-//        return ResponseEntity.ok(storeService.getStoreList());
-//    }
-//
-//    @DeleteMapping("/remove")
-//    public ResponseEntity<StoreRemoveResponse> removeStore(@RequestBody @Valid StoreRemoveRequest request){
-//        return ResponseEntity.ok(storeService.removeStore(request));
-//    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> removeStore(@RequestBody @Valid DeleteStoreDTO parameter, HttpServletRequest request){
+        String userId = (String) request.getSession().getAttribute("userId");
+
+        return ResponseEntity.ok(partnerService.deleteStore(parameter, userId));
+    }
 
 
 
