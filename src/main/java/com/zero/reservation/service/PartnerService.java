@@ -3,8 +3,8 @@ package com.zero.reservation.service;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
 import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
-import com.zero.reservation.model.dto.partner.StoreDTO;
-import com.zero.reservation.model.dto.partner.StoreListDTO;
+import com.zero.reservation.model.dto.partner.AddStoreDTO;
+import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.StoreRepository;
@@ -28,7 +28,7 @@ public class PartnerService {
 
     // 매장 추가
     @Transactional
-    public Response addStore(StoreDTO parameter, String userId) {
+    public Response addStore(AddStoreDTO parameter, String userId) {
         UserEntity user = new UserEntity();
 
         Response response = check(userId);
@@ -38,7 +38,7 @@ public class PartnerService {
         }
         user = userRepository.findByUserId(userId);
 
-        StoreEntity store = storeRepository.save(StoreDTO.of(parameter, userId, user.getUserName()));
+        StoreEntity store = storeRepository.save(AddStoreDTO.of(parameter, userId, user.getUserName()));
 
         return new Response(Status.SUCCESS_ADD_STORE);
     }

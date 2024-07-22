@@ -1,7 +1,7 @@
 package com.zero.reservation.service;
 
 import com.zero.reservation.entity.StoreEntity;
-import com.zero.reservation.model.dto.partner.StoreListDTO;
+import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
 import com.zero.reservation.repository.StoreRepository;
 import com.zero.reservation.repository.UserRepository;

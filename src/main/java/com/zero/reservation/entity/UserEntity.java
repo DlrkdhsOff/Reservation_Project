@@ -26,10 +26,4 @@ public class UserEntity {
     private LocalDateTime regDt;    // 회원가입일
     private String role;            // 일반 사용자 파트너 구분
 
-
-//    @OneToMany(mappedBy="manager")
-//    private List<Store> stores;
-//
-//    @OneToMany(mappedBy="user")
-//    private List<Reservation> reservations;
 }

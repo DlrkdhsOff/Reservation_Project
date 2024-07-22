@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class StoreDTO {     // 매장 등록
+public class AddStoreDTO {     // 매장 등록
 
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;
@@ -22,7 +22,7 @@ public class StoreDTO {     // 매장 등록
     private String storeInfo;
 
 
-    public static StoreEntity of(StoreDTO parameter, String userId, String userName) {
+    public static StoreEntity of(AddStoreDTO parameter, String userId, String userName) {
         return StoreEntity.builder()
                 .partnerId(userId)
                 .userName(userName)

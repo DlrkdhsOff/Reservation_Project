@@ -1,6 +1,6 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.dto.partner.StoreListDTO;
+import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.UserService;
@@ -37,5 +37,10 @@ public class UserController {
             return ResponseEntity.ok(new Response(Status.NOT_FOUND_STORE));
         }
         return ResponseEntity.ok(list);
+    }
+
+    @PostMapping("/reservation")
+    public ResponseEntity<?> reservation() {
+
     }
 }
