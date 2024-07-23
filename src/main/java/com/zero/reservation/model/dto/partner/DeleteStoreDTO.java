@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DeleteStoreDTO {   // 매장 삭제
 
-    private long no;
+    private long storeId;
     private String storeName;
 }

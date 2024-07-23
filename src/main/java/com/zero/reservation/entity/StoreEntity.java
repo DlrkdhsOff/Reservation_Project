@@ -18,7 +18,7 @@ public class StoreEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long no;
+    private long storeId;
 
     private String partnerId;       // 파트너 아이디
     private String userName;        // 파트너 이름

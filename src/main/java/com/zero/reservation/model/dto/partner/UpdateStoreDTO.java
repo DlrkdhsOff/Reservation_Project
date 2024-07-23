@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UpdateStoreDTO {     // 매장 정보 수정
     @NotNull(message = "매장 번호를 입력해주세요")
-    private String no;
+    private String storeId;
 
     @NotNull(message = "매장 명을 입력해주세요")
     private String storeName;
