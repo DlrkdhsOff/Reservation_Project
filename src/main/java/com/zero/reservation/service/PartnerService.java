@@ -1,12 +1,15 @@
 package com.zero.reservation.service;
 
+import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
 import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
 import com.zero.reservation.model.dto.partner.AddStoreDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.partner.ReservationListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.Response;
+import com.zero.reservation.repository.ReservationRepository;
 import com.zero.reservation.repository.StoreRepository;
 import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.Status;
@@ -25,6 +28,8 @@ public class PartnerService {
     private final StoreRepository storeRepository;
 
     private final UserRepository userRepository;
+
+    private final ReservationRepository reservationRepository;
 
     // 매장 추가
     @Transactional
@@ -116,4 +121,20 @@ public class PartnerService {
 
         return null;
     }
+
+    public List<ReservationListDTO> getReservationList(String userId) {
+        List<ReservationEntity> list = reservationRepository.findAllByPartnerIdOrderByStatusAndDateAndTime(userId);
+
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        List<ReservationListDTO> result = new ArrayList<>();
+
+        for (ReservationEntity reservation : list) {
+            result.add(ReservationListDTO.of(reservation));
+        }
+        return result;
+    }
+
 }

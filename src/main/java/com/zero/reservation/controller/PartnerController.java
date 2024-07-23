@@ -3,6 +3,7 @@ package com.zero.reservation.controller;
 import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
 import com.zero.reservation.model.dto.partner.AddStoreDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.partner.ReservationListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
@@ -80,9 +81,25 @@ public class PartnerController {
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> removeStore(@RequestBody @Valid DeleteStoreDTO parameter, HttpServletRequest request){
+    public ResponseEntity<?> removeStore(@RequestBody @Valid DeleteStoreDTO parameter, HttpServletRequest request) {
         String userId = (String) request.getSession().getAttribute("userId");
 
         return ResponseEntity.ok(partnerService.deleteStore(parameter, userId));
+    }
+
+    @GetMapping("/reservation-list")
+    public ResponseEntity<?> reservationList(HttpServletRequest request) {
+        String userId = (String) request.getSession().getAttribute("userId");
+
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.ok(new Response(Status.NOT_LOGGING_IN));
+        }
+
+        List<ReservationListDTO> list = partnerService.getReservationList(userId);
+
+        if (list == null || list.isEmpty()) {
+            return ResponseEntity.ok(new Response(Status.FAILED_GET_RESERVATION_LIST));
+        }
+        return ResponseEntity.ok(list);
     }
 }

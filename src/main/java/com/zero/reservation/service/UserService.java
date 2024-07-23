@@ -76,8 +76,9 @@ public class UserService {
             return new Response(Status.NOT_FOUND_USER);
         }
 
-        if (reservationRepository.existsByCustomerIdAndAndStoreNameAndReservationDateAndReservationTime(
-                userId, parameter.getStoreName(), parameter.getReservationDate(), parameter.getReservationTime())) {
+        if (reservationRepository.existsByCustomerIdAndStoreNameAndReservationDateAndReservationTime(
+                userId, parameter.getStoreName(), parameter.getReservationDate(), parameter.getReservationTime()
+        )) {
 
             return new Response(Status.FAILED_RESERVATION_STORE);
         }

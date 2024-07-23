@@ -26,7 +26,7 @@ public class ReservationEntity {
     private String tel;                     // 사용자 전화번호
     private String storeName;               // 매장 명
     private String reservationDate;         // 예약 일
-    private String reservationTime;         // 예약 일
+    private String reservationTime;         // 예약 시간
     private String reservationStatus;       // 예약 상태
     private String review;                  // 리뷰
 }
