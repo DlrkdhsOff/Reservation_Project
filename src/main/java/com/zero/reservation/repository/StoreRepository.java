@@ -8,13 +8,15 @@ import java.util.List;
 
 @Repository
 public interface StoreRepository extends JpaRepository<StoreEntity,String> {
-    StoreEntity findByNo(long no);
+    StoreEntity findByStoreId(long storeId);
 
     List<StoreEntity> findAllByPartnerId(String userId);
 
-    void deleteByNoAndStoreNameAndPartnerId(long no, String storeName, String partnerId);
+    void deleteByStoreIdAndStoreNameAndPartnerId(long storeId, String storeName, String partnerId);
 
     List<StoreEntity> findAllByStoreNameContaining(String storeName);
 
     List<StoreEntity> findAllByStoreAddressContaining(String storeAddress);
+
+    StoreEntity findByStoreIdAndStoreName(long storeId, String storeName);
 }

@@ -25,7 +25,9 @@ public enum Status {
 
     SUCCESS_UPDATE_STORE(HttpStatus.OK, "매장 수정 성공"),
 
-    SUCCESS_DELETE_STORE(HttpStatus.OK, "매장 삭제 성공");
+    SUCCESS_DELETE_STORE(HttpStatus.OK, "매장 삭제 성공"),
+
+    SUCCESS_RESERVATION_STORE(HttpStatus.OK, "예약을 완료하였습니다.");
 
     private final HttpStatus status;
     private final String message;

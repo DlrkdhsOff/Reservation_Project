@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class StoreListDTO {
-    private long no;
+    private long storeId;
     private String storeName;
     private String storeAddress;
     private String storeNumber;
@@ -17,7 +17,7 @@ public class StoreListDTO {
     public static StoreListDTO of(StoreEntity store) {
         StoreListDTO list = new StoreListDTO();
 
-        list.setNo(store.getNo());
+        list.setStoreId(store.getStoreId());
         list.setStoreName(store.getStoreName());
         list.setStoreAddress(store.getStoreAddress());
         list.setStoreNumber(store.getStoreNumber());

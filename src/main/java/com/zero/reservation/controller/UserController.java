@@ -1,6 +1,7 @@
 package com.zero.reservation.controller;
 
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.user.ReservationDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.UserService;
@@ -40,7 +41,15 @@ public class UserController {
     }
 
     @PostMapping("/reservation")
-    public ResponseEntity<?> reservation() {
+    public ResponseEntity<?> reservation(@RequestBody @Valid ReservationDTO parameter
+            , HttpServletRequest request) {
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.ok(new Response(Status.NOT_LOGGING_IN));
+        }
+
+        return ResponseEntity.ok(userService.reservationStore(parameter, userId));
 
     }
 }

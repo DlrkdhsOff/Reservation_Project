@@ -69,8 +69,8 @@ public class PartnerService {
         }
         user = userRepository.findByUserId(userId);
 
-        long no = Long.parseLong(parameter.getNo());
-        StoreEntity store = storeRepository.findByNo(no);
+        long storeId = Long.parseLong(parameter.getStoreId());
+        StoreEntity store = storeRepository.findByStoreId(storeId);
 
 
         storeRepository.save(UpdateStoreDTO.of(store, parameter));
@@ -89,7 +89,7 @@ public class PartnerService {
             return response;
         }
 
-        storeRepository.deleteByNoAndStoreNameAndPartnerId(parameter.getNo(), parameter.getStoreName(), userId);
+        storeRepository.deleteByStoreIdAndStoreNameAndPartnerId(parameter.getStoreId(), parameter.getStoreName(), userId);
         return new Response(Status.SUCCESS_DELETE_STORE);
     }
 

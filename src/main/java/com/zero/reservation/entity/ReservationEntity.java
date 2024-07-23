@@ -19,6 +19,7 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
+    private long storeId;                   // 매장 아이디
     private String partnerId;               // 파트너 아이디
     private String customerId;              // 사용자 아이디
     private String userName;                // 사용자 이름
