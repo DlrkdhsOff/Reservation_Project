@@ -1,12 +1,15 @@
 package com.zero.reservation.service;
 
+import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
 import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
 import com.zero.reservation.model.dto.partner.AddStoreDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.partner.ReservationListDTO;
 import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.Response;
+import com.zero.reservation.repository.ReservationRepository;
 import com.zero.reservation.repository.StoreRepository;
 import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.Status;
@@ -26,12 +29,19 @@ public class PartnerService {
 
     private final UserRepository userRepository;
 
+    private final ReservationRepository reservationRepository;
+
     // 매장 추가
     @Transactional
     public Response addStore(AddStoreDTO parameter, String userId) {
+
+        if (storeRepository.existsByPartnerIdAndStoreNameAndStoreAddress(userId, parameter.getStoreName(), parameter.getStoreAddress())) {
+            return new Response(Status.FAILED_ADD_STORE);
+        }
+
         UserEntity user = new UserEntity();
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -62,7 +72,7 @@ public class PartnerService {
         UserEntity user = new UserEntity();
         System.out.println(userId);
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -83,7 +93,7 @@ public class PartnerService {
     @Transactional
     public Response deleteStore(DeleteStoreDTO parameter, String userId) {
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -94,7 +104,7 @@ public class PartnerService {
     }
 
 
-    public Response check(String userId) {
+    public Response checkNull(String userId) {
         if (userId == null || userId.isEmpty()) {
             return new Response(Status.NOT_LOGGING_IN);
         }
@@ -111,4 +121,20 @@ public class PartnerService {
 
         return null;
     }
+
+    public List<ReservationListDTO> getReservationList(String userId) {
+        List<ReservationEntity> list = reservationRepository.findAllByPartnerIdOrderByStatusAndDateAndTime(userId);
+
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        List<ReservationListDTO> result = new ArrayList<>();
+
+        for (ReservationEntity reservation : list) {
+            result.add(ReservationListDTO.of(reservation));
+        }
+        return result;
+    }
+
 }

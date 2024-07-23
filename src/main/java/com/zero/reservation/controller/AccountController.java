@@ -31,7 +31,7 @@ public class AccountController {
 
         log.info("parameter: {}", parameter);
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.ok(failedResult(bindingResult));
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
         }
 
         return ResponseEntity.ok(accountService.signUp(parameter,  request.getRequestURI()));
@@ -44,24 +44,10 @@ public class AccountController {
                                    BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.ok(failedResult(bindingResult));
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
         }
 
         request.getSession().setAttribute("userId", parameter.getUserId());
         return ResponseEntity.ok(accountService.login(parameter));
-    }
-
-
-
-    // 매개변수가 null일 경우
-    private BindingResponse failedResult(BindingResult bindingResult) {
-        BindingResponse result = new BindingResponse();
-        if (bindingResult.hasErrors()) {
-            FieldError fieldError = bindingResult.getFieldError();
-            if (fieldError != null) {
-                result = new BindingResponse(false, bindingResult.getFieldError().getDefaultMessage());
-            }
-        }
-        return result;
     }
 }

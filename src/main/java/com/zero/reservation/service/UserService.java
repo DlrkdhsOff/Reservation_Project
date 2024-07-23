@@ -15,6 +15,10 @@ import com.zero.reservation.status.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +43,12 @@ public class UserService {
             storeEntityList = storeRepository.findAllByStoreNameContaining(parameter.getStoreName());
             System.out.println(1);
 
-        // 매장 주소 검색
+            // 매장 주소 검색
         } else if (!(parameter.getStoreAddress() == null || parameter.getStoreAddress().isEmpty())) {
             storeEntityList = storeRepository.findAllByStoreAddressContaining(parameter.getStoreAddress());
             System.out.println(2);
 
-        // 일반 검색
+            // 일반 검색
         } else {
             storeEntityList = storeRepository.findAll();
             System.out.println(3);
@@ -57,7 +61,10 @@ public class UserService {
         return result;
     }
 
+
+    // 매장 예약
     public Response reservationStore(ReservationDTO parameter, String userId) {
+
         StoreEntity store = storeRepository.findByStoreIdAndStoreName(parameter.getStoreId(), parameter.getStoreName());
         UserEntity user = userRepository.findByUserId(userId);
 
@@ -69,17 +76,48 @@ public class UserService {
             return new Response(Status.NOT_FOUND_USER);
         }
 
-        reservationRepository.save(ReservationEntity.builder()
-                .storeId(store.getStoreId())
-                .partnerId(store.getPartnerId())
-                .customerId(user.getUserId())
-                .userName(user.getUserName())
-                .tel(user.getTel())
-                .storeName(store.getStoreName())
-                .reservationStatus(String.valueOf(ReservationStatus.WAITING))
-                .build());
+        if (reservationRepository.existsByCustomerIdAndStoreNameAndReservationDateAndReservationTime(
+                userId, parameter.getStoreName(), parameter.getReservationDate(), parameter.getReservationTime()
+        )) {
+
+            return new Response(Status.FAILED_RESERVATION_STORE);
+        }
+
+        Response result = checkDateTime(parameter.getReservationDate(), parameter.getReservationTime());
+        if (result != null) {
+            return result;
+        }
+
+        reservationRepository.save(ReservationDTO.of(parameter, store, user));
+
 
         return new Response(Status.SUCCESS_RESERVATION_STORE);
     }
+
+
+
+    // 지난 날짜인지 확인
+    private Response checkDateTime(String date, String time) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        try {
+            LocalDate reservationDate = LocalDate.parse(date, dateFormatter);
+            LocalTime reservationTime = LocalTime.parse(time, timeFormatter);
+
+            LocalDate today = LocalDate.now();
+            LocalTime now = LocalTime.now();
+
+
+            if (reservationDate.isBefore(today)) {
+                return new Response(Status.FAILED_BEFORE_DATE);
+            } else if (reservationDate.isEqual(today) && reservationTime.isBefore(now)) {
+                return new Response(Status.FAILED_BEFORE_TIME);
+            }
+        } catch (DateTimeParseException e) {
+            return new Response(Status.FAILED_DATE_FORMATTER);
+        }
+        return null;
+    }
+
 
 }
