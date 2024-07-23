@@ -39,7 +39,9 @@ public class PartnerController {
                                       BindingResult bindingResult, HttpServletRequest request) {
 
         log.info("parameter: {}", parameter);
-        failedResult(bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
 
         String userId = (String) request.getSession().getAttribute("userId");
 
@@ -67,7 +69,9 @@ public class PartnerController {
     public ResponseEntity<?> updateStore(@RequestBody @Valid UpdateStoreDTO parameter,
                                          BindingResult bindingResult, HttpServletRequest request) {
 
-        failedResult(bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
 
         String userId = (String) request.getSession().getAttribute("userId");
 
@@ -80,21 +84,5 @@ public class PartnerController {
         String userId = (String) request.getSession().getAttribute("userId");
 
         return ResponseEntity.ok(partnerService.deleteStore(parameter, userId));
-    }
-
-
-
-    // 매개변수가 null일 경우
-    private BindingResponse failedResult(BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            if (bindingResult.hasErrors()) {
-                FieldError fieldError = bindingResult.getFieldError();
-                if (fieldError != null) {
-                    return new BindingResponse(false, bindingResult.getFieldError().getDefaultMessage());
-                }
-            }
-        }
-
-        return null;
     }
 }

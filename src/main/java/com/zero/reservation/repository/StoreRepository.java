@@ -8,6 +8,9 @@ import java.util.List;
 
 @Repository
 public interface StoreRepository extends JpaRepository<StoreEntity,String> {
+
+    boolean existsByPartnerIdAndStoreNameAndStoreAddress(String partnerId, String storeName, String storeAddress);
+
     StoreEntity findByStoreId(long storeId);
 
     List<StoreEntity> findAllByPartnerId(String userId);

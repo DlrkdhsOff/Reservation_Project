@@ -3,6 +3,7 @@ package com.zero.reservation.controller;
 import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.ReservationDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
+import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.UserService;
 import com.zero.reservation.status.Status;
@@ -11,6 +12,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +44,12 @@ public class UserController {
     }
 
     @PostMapping("/reservation")
-    public ResponseEntity<?> reservation(@RequestBody @Valid ReservationDTO parameter
-            , HttpServletRequest request) {
+    public ResponseEntity<?> reservation(@RequestBody @Valid ReservationDTO parameter,
+                                         BindingResult bindingResult, HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
 
         String userId = (String) request.getSession().getAttribute("userId");
         if (userId == null || userId.isEmpty()) {
@@ -50,6 +57,6 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userService.reservationStore(parameter, userId));
-
     }
+
 }

@@ -29,9 +29,14 @@ public class PartnerService {
     // 매장 추가
     @Transactional
     public Response addStore(AddStoreDTO parameter, String userId) {
+
+        if (storeRepository.existsByPartnerIdAndStoreNameAndStoreAddress(userId, parameter.getStoreName(), parameter.getStoreAddress())) {
+            return new Response(Status.FAILED_ADD_STORE);
+        }
+
         UserEntity user = new UserEntity();
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -62,7 +67,7 @@ public class PartnerService {
         UserEntity user = new UserEntity();
         System.out.println(userId);
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -83,7 +88,7 @@ public class PartnerService {
     @Transactional
     public Response deleteStore(DeleteStoreDTO parameter, String userId) {
 
-        Response response = check(userId);
+        Response response = checkNull(userId);
 
         if (response != null) {
             return response;
@@ -94,7 +99,7 @@ public class PartnerService {
     }
 
 
-    public Response check(String userId) {
+    public Response checkNull(String userId) {
         if (userId == null || userId.isEmpty()) {
             return new Response(Status.NOT_LOGGING_IN);
         }
