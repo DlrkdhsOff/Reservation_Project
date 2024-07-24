@@ -122,11 +122,15 @@ public class PartnerService {
         return null;
     }
 
-    public List<ReservationListDTO> getReservationList(String userId) {
+    public Object getReservationList(String userId) {
+        UserEntity user = userRepository.findByUserId(userId);
+        if (user.getRole().equals("ROLE_USER")) {
+            return new Response(Status.NOT_PARTNER_USER);
+        }
         List<ReservationEntity> list = reservationRepository.findAllByPartnerIdOrderByStatusAndDateAndTime(userId);
 
         if (list == null || list.isEmpty()) {
-            return null;
+            return new Response(Status.FAILED_GET_RESERVATION_LIST);
         }
 
         List<ReservationListDTO> result = new ArrayList<>();

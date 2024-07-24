@@ -95,11 +95,11 @@ public class PartnerController {
             return ResponseEntity.ok(new Response(Status.NOT_LOGGING_IN));
         }
 
-        List<ReservationListDTO> list = partnerService.getReservationList(userId);
-
-        if (list == null || list.isEmpty()) {
-            return ResponseEntity.ok(new Response(Status.FAILED_GET_RESERVATION_LIST));
-        }
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(partnerService.getReservationList(userId));
     }
+
+//    @PostMapping("/reservation-approve")
+//    public ResponseEntity<?> reservationApprove() {
+//
+//    }
 }
