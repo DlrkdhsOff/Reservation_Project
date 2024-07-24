@@ -164,6 +164,8 @@ public class PartnerService {
             reservation.setReservationStatus("REFUSE");
 
             response = new Response(Status.SUCCESS_APPROVE_RESERVATION);
+        } else {
+            response = new Response(Status.PARAMETER_APPROVE_RESERVATION_IS_FAILED);
         }
         reservationRepository.save(reservation);
         return response;
