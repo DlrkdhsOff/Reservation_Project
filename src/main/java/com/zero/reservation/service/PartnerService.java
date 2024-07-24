@@ -3,17 +3,15 @@ package com.zero.reservation.service;
 import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
-import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
-import com.zero.reservation.model.dto.partner.AddStoreDTO;
+import com.zero.reservation.model.dto.partner.*;
 import com.zero.reservation.model.dto.common.StoreListDTO;
-import com.zero.reservation.model.dto.partner.ReservationListDTO;
-import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.ReservationRepository;
 import com.zero.reservation.repository.StoreRepository;
 import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -139,6 +137,36 @@ public class PartnerService {
             result.add(ReservationListDTO.of(reservation));
         }
         return result;
+    }
+
+    public Response reservationApprove(String status, ReservationApproveDTO parameter, String userId) {
+
+        if (userId == null || userId.isEmpty()) {
+            return new Response(Status.NOT_LOGGING_IN);
+        }
+
+        UserEntity user = userRepository.findByUserId(userId);
+        if (user.getRole().equals("ROLE_USER")) {
+            return new Response(Status.NOT_PARTNER_USER);
+        }
+
+        ReservationEntity reservation = reservationRepository.findByStoreIdAndStoreNameAndUserNameAndReservationStatus(
+                parameter.getStoreId(), parameter.getStoreName(), parameter.getUserName(), "WAITING"
+        );
+
+        Response response = null;
+        if ("approve".equals(status)) {
+
+            reservation.setReservationStatus("APPROVE");
+
+            response = new Response(Status.SUCCESS_APPROVE_RESERVATION);
+        } else if ("refuse".equals(status)) {
+            reservation.setReservationStatus("REFUSE");
+
+            response = new Response(Status.SUCCESS_APPROVE_RESERVATION);
+        }
+        reservationRepository.save(reservation);
+        return response;
     }
 
 }
