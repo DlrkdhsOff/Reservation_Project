@@ -103,6 +103,10 @@ public class PartnerController {
             return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
         }
 
+        if (!("approve".equals(status) || "refuse".equals(status))) {
+            return ResponseEntity.ok(new Response(Status.PARAMETER_APPROVE_RESERVATION_IS_FAILED));
+        }
+
         String userId = (String) request.getSession().getAttribute("userId");
 
         return ResponseEntity.ok(partnerService.reservationApprove(status, parameter, userId));

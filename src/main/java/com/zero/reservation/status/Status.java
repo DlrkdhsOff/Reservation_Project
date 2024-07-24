@@ -39,6 +39,7 @@ public enum Status {
     FAILED_DATE_FORMATTER(HttpStatus.BAD_REQUEST, "시간 형식이 올바르지 않습니다"),
     FAILED_BEFORE_DATE(HttpStatus.BAD_REQUEST, "지난 날짜로 예약 할 수 없습니다. 다시 입력해주세요"),
 
+    PARAMETER_APPROVE_RESERVATION_IS_FAILED(HttpStatus.BAD_REQUEST, "예약 승인 거절 여부를 정확하게 입력 해주세요"),
     SUCCESS_APPROVE_RESERVATION(HttpStatus.OK, "예약을 승인 했습니다.");
 
     private final HttpStatus status;
