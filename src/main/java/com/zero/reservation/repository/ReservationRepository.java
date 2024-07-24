@@ -17,4 +17,6 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     @Query("SELECT e FROM reservation e WHERE e.partnerId = :partnerId " +
             "ORDER BY CASE WHEN e.reservationStatus = 'waiting' THEN 0 ELSE 1 END, e.reservationDate ASC, e.reservationTime ASC")
     List<ReservationEntity> findAllByPartnerIdOrderByStatusAndDateAndTime(@Param("partnerId") String partnerId);
+
+    ReservationEntity findByStoreIdAndStoreNameAndUserNameAndReservationStatus(long storeId, String storeName, String userName, String status);
 }

@@ -1,10 +1,7 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
-import com.zero.reservation.model.dto.partner.AddStoreDTO;
+import com.zero.reservation.model.dto.partner.*;
 import com.zero.reservation.model.dto.common.StoreListDTO;
-import com.zero.reservation.model.dto.partner.ReservationListDTO;
-import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
 import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.AccountService;
@@ -98,8 +95,16 @@ public class PartnerController {
         return ResponseEntity.ok(partnerService.getReservationList(userId));
     }
 
-//    @PostMapping("/reservation-approve")
-//    public ResponseEntity<?> reservationApprove() {
-//
-//    }
+    @PostMapping("/reservation-approve/{status}")
+    public ResponseEntity<?> reservationApprove(@PathVariable String status,
+                                                @RequestBody @Valid ReservationApproveDTO parameter,
+                                                BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
+
+        String userId = (String) request.getSession().getAttribute("userId");
+
+        return ResponseEntity.ok(partnerService.reservationApprove(status, parameter, userId));
+    }
 }
