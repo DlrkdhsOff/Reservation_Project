@@ -4,6 +4,7 @@ import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.user.KioskDTO;
 import com.zero.reservation.model.dto.user.ReservationDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
 import com.zero.reservation.model.response.Response;
@@ -95,7 +96,6 @@ public class UserService {
     }
 
 
-
     // 지난 날짜인지 확인
     private Response checkDateTime(String date, String time) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -107,11 +107,11 @@ public class UserService {
             LocalDate today = LocalDate.now();
             LocalTime now = LocalTime.now();
 
-
             if (reservationDate.isBefore(today)) {
                 return new Response(Status.FAILED_BEFORE_DATE);
             } else if (reservationDate.isEqual(today) && reservationTime.isBefore(now)) {
                 return new Response(Status.FAILED_BEFORE_TIME);
+
             }
         } catch (DateTimeParseException e) {
             return new Response(Status.FAILED_DATE_FORMATTER);
@@ -120,4 +120,57 @@ public class UserService {
     }
 
 
+    public Response checkReservation(KioskDTO parameter, String userId) {
+
+        if (userId == null || userId.isEmpty()) {
+            return new Response(Status.NOT_LOGGING_IN);
+        }
+
+        ReservationEntity reservation = reservationRepository
+                .findByCustomerIdAndStoreNameAndReservationDateAndReservationTime(userId, parameter.getStoreName(),
+                        parameter.getReservationDate(), parameter.getReservationTime());
+
+
+        switch (reservation.getReservationStatus()) {
+            case "CANCEL" -> {
+                return new Response(Status.RESERVATION_STATUS_CANCEL);
+            }
+            case "WAITING" -> {
+                return new Response(Status.RESERVATION_STATUS_WAITING);
+            }
+            case "REFUSE" -> {
+                return new Response(Status.RESERVATION_STATUS_REFUSE);
+            }
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        try {
+            LocalDate reservationDate = LocalDate.parse(reservation.getReservationDate(), dateFormatter);
+            LocalTime tenMinutesBeforeReservation = LocalTime.parse(reservation.getReservationTime(), timeFormatter)
+                    .minusMinutes(10);
+
+            LocalDate today = LocalDate.now();
+            LocalTime now = LocalTime.now();
+
+            Response response = null;
+            if (today.isBefore(reservationDate)) {
+                response = new Response(Status.FAILED_KIOSK_BEFORE_DATE);
+            } else if (today.isAfter(reservationDate)) {
+                reservation.setReservationStatus(String.valueOf(ReservationStatus.CANCEL));
+                response = new Response(Status.FAILED_KIOSK_AFTER_DATE);
+            } else if (reservationDate.isEqual(today) && now.isAfter(tenMinutesBeforeReservation)) {
+                reservation.setReservationStatus(String.valueOf(ReservationStatus.CANCEL));
+                response = new Response(Status.FAILED_KIOSK_AFTER_TIME);
+            } else {
+                reservation.setReservationStatus(String.valueOf(ReservationStatus.COMPLETE));
+                response = new Response(Status.SUCCESS_STORE_ENTRANCE);
+            }
+
+            reservationRepository.save(reservation);
+            return response;
+        } catch (DateTimeParseException e) {
+            return new Response(Status.FAILED_DATE_FORMATTER);
+        }
+    }
 }

@@ -2,7 +2,6 @@ package com.zero.reservation.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
