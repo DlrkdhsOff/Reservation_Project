@@ -19,4 +19,6 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     List<ReservationEntity> findAllByPartnerIdOrderByStatusAndDateAndTime(@Param("partnerId") String partnerId);
 
     ReservationEntity findByStoreIdAndStoreNameAndUserNameAndReservationStatus(long storeId, String storeName, String userName, String status);
+
+    ReservationEntity findByCustomerIdAndStoreNameAndReservationDateAndReservationTime(String userId, String storeName, String reservationDate, String reservationTime);
 }
