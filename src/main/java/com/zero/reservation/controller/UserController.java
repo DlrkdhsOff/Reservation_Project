@@ -1,8 +1,10 @@
 package com.zero.reservation.controller;
 
+import com.zero.reservation.model.dto.common.DeleteReviewDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.KioskDTO;
 import com.zero.reservation.model.dto.user.ReservationDTO;
+import com.zero.reservation.model.dto.user.ReviewDTO;
 import com.zero.reservation.model.dto.user.UserStoreListDTO;
 import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
@@ -69,5 +71,41 @@ public class UserController {
 
         String userId = (String) request.getSession().getAttribute("userId");
         return ResponseEntity.ok(userService.checkReservation(parameter, userId));
+    }
+
+    @PostMapping("/review")
+    public ResponseEntity<?> review(@RequestBody @Valid ReviewDTO parameter,
+                                    BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(userService.review(parameter, userId));
+
+    }
+
+    @PostMapping("/update-review")
+    public ResponseEntity<?> updateReview(@RequestBody @Valid ReviewDTO parameter,
+                                          BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(userService.review(parameter, userId));
+
+    }
+
+    @PostMapping("/delete-review")
+    public ResponseEntity<?> deleteReview(@RequestBody @Valid DeleteReviewDTO parameter,
+                                          BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(userService.deleteReview(parameter, userId));
+
     }
 }
