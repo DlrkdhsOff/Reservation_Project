@@ -20,5 +20,9 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
 
     ReservationEntity findByStoreIdAndStoreNameAndUserNameAndReservationStatus(long storeId, String storeName, String userName, String status);
 
-    ReservationEntity findByCustomerIdAndStoreNameAndReservationDateAndReservationTime(String userId, String storeName, String reservationDate, String reservationTime);
+    ReservationEntity findByCustomerIdAndStoreNameAndReservationDateAndReservationTime(String userId, String storeName, String date, String time);
+
+    ReservationEntity findByCustomerIdAndStoreIdAndStoreNameAndReservationDateAndReservationTimeAndReservationStatus(String userId, long storeId, String storeName, String date, String time, String status);
+
+    void deleteByCustomerIdAndStoreIdAndStoreNameAndReservationDateAndReservationTime(String userId, long storeId, String storeName, String date, String time);
 }

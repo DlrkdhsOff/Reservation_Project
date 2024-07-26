@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum Status {
 
     NULL(HttpStatus.NOT_FOUND, "null"),
+    NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND,"존재하지 않은 예약 정보 입니다."),
 
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     PASSWORD_DOES_NOT_MATCH(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다."),
@@ -20,6 +21,7 @@ public enum Status {
     SUCCESS_LOGIN(HttpStatus.OK, "로그인 성공"),
     NOT_LOGGING_IN(HttpStatus.BAD_REQUEST, "로그인을 해주세요"),
     NOT_PARTNER_USER(HttpStatus.BAD_REQUEST, "파트너 회원이 아닙니다. 파트너 회원가입 후 다시 이용해주세요"),
+    IS_PARTNER_USER(HttpStatus.BAD_REQUEST, "파트너 회원은 작성자 글을 수정 할 수 없습니다."),
 
     SUCCESS_ADD_STORE(HttpStatus.CREATED, "매장 등록 성공"),
     FAILED_ADD_STORE(HttpStatus.CREATED, "매장 등록 실패, 이미 등록한 매장 입니다."),
@@ -47,10 +49,17 @@ public enum Status {
     RESERVATION_STATUS_WAITING(HttpStatus.OK, "매장에서 아직 승인 하지 않은 예약합니다."),
     RESERVATION_STATUS_REFUSE(HttpStatus.OK, "매장에서 거절한 예약합니다."),
     RESERVATION_STATUS_CANCEL(HttpStatus.OK, "최소된 예약입니다."),
+    RESERVATION_STATUS_COMPLETE(HttpStatus.OK, "이미 이용 완료한 예약입니다."),
 
 
     PARAMETER_APPROVE_RESERVATION_IS_FAILED(HttpStatus.BAD_REQUEST, "예약 승인 거절 여부를 정확하게 입력 해주세요"),
-    SUCCESS_APPROVE_RESERVATION(HttpStatus.OK, "예약을 승인 했습니다.");
+    SUCCESS_APPROVE_RESERVATION(HttpStatus.OK, "예약을 승인 했습니다."),
+
+    SUCCESS_WRITE_REVIEW(HttpStatus.OK, "리뷰를 작성하였습니다."),
+
+    SUCCESS_DELETE_REVIEW(HttpStatus.OK, "리뷰를 삭제 하였습니다.");
+
+
 
     private final HttpStatus status;
     private final String message;
