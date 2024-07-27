@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class KioskDTO {
 
-    @NotNull(message = "매장명을 입력해주세요")
-    private String storeName;
+    @NotNull(message = "매장 아이디를 입력해주세요")
+    private long storeId;
 
     @NotNull(message = "예약 날짜를 입력해주세요")
     private String reservationDate;
