@@ -1,15 +1,8 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.dto.user.DeleteReviewDTO;
-import com.zero.reservation.model.dto.common.StoreListDTO;
-import com.zero.reservation.model.dto.user.KioskDTO;
-import com.zero.reservation.model.dto.user.ReservationDTO;
-import com.zero.reservation.model.dto.user.ReviewDTO;
-import com.zero.reservation.model.dto.user.UserStoreListDTO;
+import com.zero.reservation.model.dto.user.*;
 import com.zero.reservation.model.response.BindingResponse;
-import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.UserService;
-import com.zero.reservation.status.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +28,16 @@ public class UserController {
         log.info("parameter: {}", parameter);
         String userId = (String) request.getSession().getAttribute("userId");
 
-        return ResponseEntity.ok(userService.getUserStoreList(parameter, userId));
+        return ResponseEntity.ok(userService.userStoreList(parameter, userId));
+    }
+
+    // 매장 상제 정보
+    @GetMapping("/store-list/detail/{storeId}")
+    public ResponseEntity<?> getStoreListDetail(@PathVariable long storeId,
+                                                HttpServletRequest request) {
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(userService.storeDetail(userId, storeId));
     }
 
 

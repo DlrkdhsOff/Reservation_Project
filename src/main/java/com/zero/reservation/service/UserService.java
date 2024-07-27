@@ -3,12 +3,10 @@ package com.zero.reservation.service;
 import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
-import com.zero.reservation.model.dto.user.DeleteReviewDTO;
+import com.zero.reservation.model.dto.common.Review;
+import com.zero.reservation.model.dto.common.StoreDetailDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
-import com.zero.reservation.model.dto.user.KioskDTO;
-import com.zero.reservation.model.dto.user.ReservationDTO;
-import com.zero.reservation.model.dto.user.ReviewDTO;
-import com.zero.reservation.model.dto.user.UserStoreListDTO;
+import com.zero.reservation.model.dto.user.*;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.ReservationRepository;
 import com.zero.reservation.repository.StoreRepository;
@@ -27,6 +25,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zero.reservation.model.response.DuplicateMethod.getReview;
 import static com.zero.reservation.model.response.DuplicateMethod.isUserExist;
 
 @Service
@@ -41,7 +40,7 @@ public class UserService {
 
 
     // 매장 검색
-    public Object getUserStoreList(UserStoreListDTO parameter, String userId) {
+    public Object userStoreList(UserStoreListDTO parameter, String userId) {
 
         // 로그인 유무, 파트너 사용자인지 확인
         Response response = isUserExist(userId, userRepository);
@@ -59,6 +58,25 @@ public class UserService {
         }
 
         return result;
+    }
+
+    // 매장 상세정보
+    public Object storeDetail(String userId, long storeId) {
+        // 로그인 중인지 확인
+        if (userId == null || userId.isEmpty()) {
+            return new Response(Status.NOT_LOGGING_IN);
+        }
+
+        // 매장 정보 저장
+        StoreEntity store = storeRepository.findByStoreId(storeId);
+        if (store == null) {
+            return new Response(Status.NOT_FOUND_STORE);
+        }
+
+        // 매장 리뷰 추출
+        List<Review> reviewList = getReview(reservationRepository, store);
+
+        return StoreDetailDTO.of(store, reviewList);
     }
 
 
@@ -154,17 +172,14 @@ public class UserService {
         // 매장명 검색
         if (!(parameter.getStoreName() == null || parameter.getStoreName().isEmpty())) {
             storeEntityList = storeRepository.findAllByStoreNameContaining(parameter.getStoreName());
-            System.out.println(1);
 
             // 매장 주소 검색
         } else if (!(parameter.getStoreAddress() == null || parameter.getStoreAddress().isEmpty())) {
             storeEntityList = storeRepository.findAllByStoreAddressContaining(parameter.getStoreAddress());
-            System.out.println(2);
 
             // 일반 검색
         } else {
             storeEntityList = storeRepository.findAll();
-            System.out.println(3);
         }
 
         // 필요한 데이터만 추출하여 result 변수에 저장

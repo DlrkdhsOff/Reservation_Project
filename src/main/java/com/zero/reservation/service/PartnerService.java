@@ -3,7 +3,7 @@ package com.zero.reservation.service;
 import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
-import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.common.Review;
 import com.zero.reservation.model.dto.partner.*;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.ReservationRepository;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zero.reservation.model.response.DuplicateMethod.getReview;
 import static com.zero.reservation.model.response.DuplicateMethod.isPartnerExist;
 
 
@@ -67,9 +68,11 @@ public class PartnerService {
         }
 
         List<StoreEntity> storeEntityList = storeRepository.findAllByPartnerId(userId);
-        List<StoreListDTO> result = new ArrayList<>();
+        List<PartnerStoreListDTO> result = new ArrayList<>();
+
         for (StoreEntity store : storeEntityList) {
-            result.add(StoreListDTO.of(store));
+            List<Review> reviews = getReview(reservationRepository, store);
+            result.add(PartnerStoreListDTO.of(store, reviews));
         }
 
         // 매장 목록이 존재하지 않을 경우

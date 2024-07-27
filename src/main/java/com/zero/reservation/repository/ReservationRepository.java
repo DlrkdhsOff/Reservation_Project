@@ -38,4 +38,7 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     // 사용자 아이디, 매장 아이디, 예약 날짜, 예약 시간과 일치하는 데이터 반환
     ReservationEntity findByCustomerIdAndStoreIdAndReservationDateAndReservationTime
     (String customerId, long storeId, String reservationDate, String reservationTime);
+
+    // 매장 아이디에 해당 하는 모든 데이터 반환
+    List<ReservationEntity> findAllByStoreId(long storeId);
 }

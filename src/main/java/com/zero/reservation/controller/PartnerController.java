@@ -1,11 +1,8 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.partner.*;
 import com.zero.reservation.model.response.BindingResponse;
-import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.PartnerService;
-import com.zero.reservation.status.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
