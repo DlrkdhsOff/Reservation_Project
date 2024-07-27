@@ -14,6 +14,7 @@ public class BindingResponse {
     String message;
 
 
+    // 매개 변수값에 null이 있을경우 DTO 클래스에 작성한 메시지를 반환
     public static BindingResponse failedResult(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             if (bindingResult.hasErrors()) {

@@ -28,7 +28,6 @@ public class AccountController {
     public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDTO parameter,
                                     BindingResult bindingResult, HttpServletRequest request) {
 
-        log.info("parameter: {}", parameter);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
         }

@@ -10,11 +10,8 @@ import lombok.Data;
 @Data
 public class ReservationDTO {
 
-    @NotNull(message = "매장 번호를 입력해주세요")
+    @NotNull(message = "매장 아이디를 입력해주세요")
     private long storeId;
-
-    @NotNull(message = "매장명을 입력해주세요")
-    private String storeName;
 
     @NotNull(message = "예약 날짜를 입력해주세요")
     private String reservationDate;
