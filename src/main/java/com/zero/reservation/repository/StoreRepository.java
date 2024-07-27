@@ -1,7 +1,10 @@
 package com.zero.reservation.repository;
 
 import com.zero.reservation.entity.StoreEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +29,8 @@ public interface StoreRepository extends JpaRepository<StoreEntity,String> {
 
     // 매개변수로 입력받은 문자열이 들어간 매장 반환
     List<StoreEntity> findAllByStoreAddressContaining(String storeAddress);
+
+
+    List<StoreEntity> findAllByOrderByStoreNameAsc();
 
 }

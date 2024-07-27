@@ -14,7 +14,9 @@ import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.ReservationStatus;
 import com.zero.reservation.status.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -173,13 +175,15 @@ public class UserService {
         if (!(parameter.getStoreName() == null || parameter.getStoreName().isEmpty())) {
             storeEntityList = storeRepository.findAllByStoreNameContaining(parameter.getStoreName());
 
-            // 매장 주소 검색
-        } else if (!(parameter.getStoreAddress() == null || parameter.getStoreAddress().isEmpty())) {
+        }
+        // 매장 주소 검색
+        else if (!(parameter.getStoreAddress() == null || parameter.getStoreAddress().isEmpty())) {
             storeEntityList = storeRepository.findAllByStoreAddressContaining(parameter.getStoreAddress());
 
-            // 일반 검색
-        } else {
-            storeEntityList = storeRepository.findAll();
+        }
+        // 일반 검색
+        else {
+            storeEntityList = storeRepository.findAllByOrderByStoreNameAsc();
         }
 
         // 필요한 데이터만 추출하여 result 변수에 저장

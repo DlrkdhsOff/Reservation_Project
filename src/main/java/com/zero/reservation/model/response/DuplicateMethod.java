@@ -55,7 +55,7 @@ public class DuplicateMethod {
             if (r.getReview() == null) {
                 continue;
             }
-            review.setUserName(r.getUserName());
+            review.setUserId(r.getCustomerId());
             review.setReview(r.getReview());
             reviews.add(review);
         }
