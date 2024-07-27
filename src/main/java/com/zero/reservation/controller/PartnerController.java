@@ -1,10 +1,7 @@
 package com.zero.reservation.controller;
 
 import com.zero.reservation.model.dto.common.StoreListDTO;
-import com.zero.reservation.model.dto.partner.AddStoreDTO;
-import com.zero.reservation.model.dto.partner.DeleteStoreDTO;
-import com.zero.reservation.model.dto.partner.ReservationApproveDTO;
-import com.zero.reservation.model.dto.partner.UpdateStoreDTO;
+import com.zero.reservation.model.dto.partner.*;
 import com.zero.reservation.model.response.BindingResponse;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.service.AccountService;
@@ -108,5 +105,16 @@ public class PartnerController {
         String userId = (String) request.getSession().getAttribute("userId");
 
         return ResponseEntity.ok(partnerService.reservationApprove(status, parameter, userId));
+    }
+
+    @DeleteMapping("/delete-review")
+    public ResponseEntity<?> deleteReview(@RequestBody @Valid DeleteReviewDTO parameter,
+                                          BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
+        }
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(partnerService.deleteReview(parameter, userId));
     }
 }

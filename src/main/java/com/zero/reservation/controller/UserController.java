@@ -1,6 +1,6 @@
 package com.zero.reservation.controller;
 
-import com.zero.reservation.model.dto.common.DeleteReviewDTO;
+import com.zero.reservation.model.dto.user.DeleteReviewDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.KioskDTO;
 import com.zero.reservation.model.dto.user.ReservationDTO;
@@ -97,7 +97,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/delete-review")
+    @DeleteMapping("/delete-review")
     public ResponseEntity<?> deleteReview(@RequestBody @Valid DeleteReviewDTO parameter,
                                           BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {

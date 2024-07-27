@@ -1,10 +1,11 @@
-package com.zero.reservation.model.dto.common;
+package com.zero.reservation.model.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class DeleteReviewDTO {
+
     @NotNull(message = "매장 번호를 입력해주세요")
     private long storeId;
 

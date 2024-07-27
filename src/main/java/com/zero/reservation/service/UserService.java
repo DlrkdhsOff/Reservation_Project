@@ -3,7 +3,7 @@ package com.zero.reservation.service;
 import com.zero.reservation.entity.ReservationEntity;
 import com.zero.reservation.entity.StoreEntity;
 import com.zero.reservation.entity.UserEntity;
-import com.zero.reservation.model.dto.common.DeleteReviewDTO;
+import com.zero.reservation.model.dto.user.DeleteReviewDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
 import com.zero.reservation.model.dto.user.KioskDTO;
 import com.zero.reservation.model.dto.user.ReservationDTO;
@@ -216,10 +216,20 @@ public class UserService {
             return new Response(Status.NOT_LOGGING_IN);
         }
 
-        reservationRepository
-                .deleteByCustomerIdAndStoreIdAndStoreNameAndReservationDateAndReservationTime(
-                        userId, parameter.getStoreId(), parameter.getStoreName(), parameter.getReservationDate(), parameter.getReservationTime()
-                );
+        ReservationEntity reservation = reservationRepository
+                .findByCustomerIdAndStoreIdAndStoreNameAndReservationDateAndReservationTimeAndReservationStatus(
+                        userId, parameter.getStoreId(),
+                        parameter.getStoreName(),
+                        parameter.getReservationDate(),
+                        parameter.getReservationTime(),
+                        "COMPLETE");
+
+        if (reservation == null) {
+            return new Response(Status.NOT_FOUND_RESERVATION);
+        }
+
+        reservation.setReview(null);
+        reservationRepository.save(reservation);
 
         return new Response(Status.SUCCESS_DELETE_REVIEW);
     }
