@@ -41,4 +41,7 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
 
     // 매장 아이디에 해당 하는 모든 데이터 반환
     List<ReservationEntity> findAllByStoreId(long storeId);
+
+    // 사용자 아이디에 해당하는 모든 예약 데이터 반환
+    List<ReservationEntity> findAllByCustomerId(String userId);
 }

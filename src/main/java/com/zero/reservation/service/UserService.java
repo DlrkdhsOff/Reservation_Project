@@ -6,6 +6,7 @@ import com.zero.reservation.entity.UserEntity;
 import com.zero.reservation.model.dto.common.Review;
 import com.zero.reservation.model.dto.common.StoreDetailDTO;
 import com.zero.reservation.model.dto.common.StoreListDTO;
+import com.zero.reservation.model.dto.partner.ReservationListDTO;
 import com.zero.reservation.model.dto.user.*;
 import com.zero.reservation.model.response.Response;
 import com.zero.reservation.repository.ReservationRepository;
@@ -15,6 +16,7 @@ import com.zero.reservation.status.ReservationStatus;
 import com.zero.reservation.status.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -93,7 +95,7 @@ public class UserService {
         }
 
         if (!storeRepository.existsByStoreId(parameter.getStoreId())) {
-            return new Response(Status.FAILD_SEARCH_STORE);
+            return new Response(Status.FAILED_SEARCH_STORE);
         }
 
         // 입력한 날짜가 지난 날짜인지 확인
@@ -123,6 +125,30 @@ public class UserService {
 
 
         return new Response(Status.SUCCESS_RESERVATION_STORE);
+    }
+
+    // 내 모든 예약 내역
+    public Object myReservation(String userId) {
+        Response response = isUserExist(userId, userRepository);
+
+        if (response != null) {
+            return response;
+        }
+
+        List<ReservationListDTO> result = new ArrayList<>();
+        List<ReservationEntity> list = reservationRepository.findAllByCustomerId(userId);
+
+        // list가 null일 경우
+        if (list == null || list.isEmpty()) {
+            return new Response(Status.FAILED_GET_RESERVATION_LIST);
+        }
+        // null이 아닐경우 필요한 데이터만 result에 저장
+        else {
+            for (ReservationEntity entity : list) {
+                result.add(ReservationListDTO.of(entity));
+            }
+        }
+        return result;
     }
 
 
