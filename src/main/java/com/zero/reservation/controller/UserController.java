@@ -55,12 +55,19 @@ public class UserController {
         return ResponseEntity.ok(userService.reservationStore(parameter, userId));
     }
 
+    // 내 모든 예약 내역
+    @GetMapping("/myReservation")
+    public ResponseEntity<?> myReservation(HttpServletRequest request) {
+
+        String userId = (String) request.getSession().getAttribute("userId");
+        return ResponseEntity.ok(userService.myReservation(userId));
+    }
+
 
     // 키오스크에서 예약 확인
     @GetMapping("/kiosk")
     public ResponseEntity<?> kiosk(@RequestBody @Valid KioskDTO parameter,
-                                              BindingResult bindingResult, HttpServletRequest request) {
-
+                                   BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.ok(BindingResponse.failedResult(bindingResult));
         }
@@ -85,7 +92,7 @@ public class UserController {
 
 
     // 리뷰 수정
-    @PostMapping("/update-review")
+    @PatchMapping("/update-review")
     public ResponseEntity<?> updateReview(@RequestBody @Valid ReviewDTO parameter,
                                           BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {

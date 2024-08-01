@@ -33,4 +33,5 @@ public interface StoreRepository extends JpaRepository<StoreEntity,String> {
 
     List<StoreEntity> findAllByOrderByStoreNameAsc();
 
+    boolean existsByStoreId(long storeId);
 }

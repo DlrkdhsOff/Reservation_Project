@@ -23,6 +23,7 @@ public enum Status {
     SUCCESS_ADD_STORE(HttpStatus.CREATED, "매장 등록 성공"),
     FAILED_ADD_STORE(HttpStatus.CREATED, "매장 등록 실패, 이미 등록한 매장 입니다."),
     NOT_FOUND_STORE(HttpStatus.NOT_FOUND, "등록된 매장이 없습니다."),
+    FAILED_SEARCH_STORE(HttpStatus.NOT_FOUND, "존재하지 않은 매장입니다. 다시 입력해주세요"),
 
 
     // 매장 예약 및 시간
