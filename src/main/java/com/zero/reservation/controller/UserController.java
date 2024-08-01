@@ -85,7 +85,7 @@ public class UserController {
 
 
     // 리뷰 수정
-    @PostMapping("/update-review")
+    @PatchMapping("/update-review")
     public ResponseEntity<?> updateReview(@RequestBody @Valid ReviewDTO parameter,
                                           BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {

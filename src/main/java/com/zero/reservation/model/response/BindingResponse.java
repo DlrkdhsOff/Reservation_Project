@@ -10,11 +10,14 @@ import org.springframework.validation.FieldError;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BindingResponse {
+
+    // 중복적으로 사용되는 부분이 많아서 따로 클래스로 구현
+
     boolean status;
     String message;
 
 
-    // 매개 변수값에 null이 있을경우 DTO 클래스에 작성한 메시지를 반환
+    // 매개 변수값에 null이 존재할경우 DTO 클래스에 작성한 메시지를 반환
     public static BindingResponse failedResult(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             if (bindingResult.hasErrors()) {

@@ -92,6 +92,10 @@ public class UserService {
             return response;
         }
 
+        if (!storeRepository.existsByStoreId(parameter.getStoreId())) {
+            return new Response(Status.FAILD_SEARCH_STORE);
+        }
+
         // 입력한 날짜가 지난 날짜인지 확인
         Response dateTimeResponse = dateTime(parameter.getReservationDate(), parameter.getReservationTime());
 
@@ -137,6 +141,10 @@ public class UserService {
                 .findByCustomerIdAndStoreIdAndReservationDateAndReservationTime(userId, parameter.getStoreId(),
                         parameter.getReservationDate(), parameter.getReservationTime());
 
+
+        if (reservation == null) {
+            return new Response(Status.NOT_FOUND_RESERVATION);
+        }
 
         // 예약 상태에 따른 결과 반환
         response = reservationStatus(reservation);
