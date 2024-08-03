@@ -269,6 +269,7 @@ public class UserService {
 
     // 예약 날짜가 현재 날짜 비교 후 결과 반환
     private Response kioskDateTime(ReservationEntity reservation) {
+        Response response = null;
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -282,31 +283,29 @@ public class UserService {
 
             // 예약 날짜보다 현재 날짜가 전일 경우
             if (today.isBefore(reservationDate)) {
-                return new Response(Status.FAILED_KIOSK_BEFORE_DATE);
+                response = new Response(Status.FAILED_KIOSK_BEFORE_DATE);
             }
 
             // 현재 날짜보다 예약 날짜가 전일 경우
             else if (today.isAfter(reservationDate)) {
                 reservation.setReservationStatus(ReservationStatus.CANCEL.toString());
-                reservationRepository.save(reservation);
-                return new Response(Status.FAILED_KIOSK_AFTER_DATE);
+                response = new Response(Status.FAILED_KIOSK_AFTER_DATE);
             }
 
             // 예약일은 정확하지만 예약 시간 10분전이 아닌 이후에 왔을 경우
             else if (reservationDate.isEqual(today) && now.isAfter(tenMinutesBeforeReservation)) {
                 reservation.setReservationStatus(ReservationStatus.CANCEL.toString());
-                reservationRepository.save(reservation);
-                return new Response(Status.FAILED_KIOSK_AFTER_TIME);
+                response = new Response(Status.FAILED_KIOSK_AFTER_TIME);
             }
 
             // 입장 가능한 시간에 왔을 경우
             else {
                 reservation.setReservationStatus(ReservationStatus.COMPLETE.toString());
-                reservationRepository.save(reservation);
-                return new Response(Status.SUCCESS_STORE_ENTRANCE);
+                response = new Response(Status.SUCCESS_STORE_ENTRANCE);
             }
+            reservationRepository.save(reservation);
+            return response;
         }
-
         // 데이터 입력이 잘못 됐을 경우
         catch (DateTimeParseException e) {
             return new Response(Status.FAILED_DATE_FORMATTER);
