@@ -15,10 +15,7 @@ import com.zero.reservation.repository.UserRepository;
 import com.zero.reservation.status.ReservationStatus;
 import com.zero.reservation.status.Status;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
