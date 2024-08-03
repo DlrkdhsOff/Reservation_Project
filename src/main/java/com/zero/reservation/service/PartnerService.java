@@ -42,7 +42,6 @@ public class PartnerService {
             return new Response(Status.FAILED_ADD_STORE);
         }
 
-
         // 로그인 유무, 파트너 사용자인지 확인
         Response response = isPartnerExist(userId, userRepository);
 
