@@ -32,17 +32,15 @@ public class AccountService {
 
         // 일반 사용자 회원 가입일 경우
         String role = "ROLE_USER";
-        boolean status = false;
 
         // 파트너 회원 가입일 경우
         if ("/partner-signUp".equals(requestURI)) {
             role = "ROLE_PARTNER";
-            status = true;
         }
 
         userRepository.save(SignUpDTO.of(parameter, role));
 
-        return new Response(status ? Status.SUCCESS_PARTNER_SIGNUP: Status.SUCCESS_SIGNUP);
+        return new Response(role.equals("ROLE_PARTNER") ? Status.SUCCESS_PARTNER_SIGNUP: Status.SUCCESS_SIGNUP);
     }
 
 
