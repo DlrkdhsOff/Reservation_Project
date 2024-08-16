@@ -1,4 +1,4 @@
-# "매장 테이블 예약 서비스 구현(스프링 부트를 활용한 서버 API 기반)"
+# "매장 테이블 예약 서비스 구현"(스프링 부트를 활용한 서버 API 기반)
 
 
 ## 🖥️ 프로젝트 소개
@@ -7,47 +7,42 @@
 
 
 ## ⌛️ 개발 기간
-2024.05.27 ~ 2024.05.31
+2024.07.15 ~ 2024.08.05
 
 ## 📚 개발 환경 및 기술
 
 ### 언어
 
-- **Java 17**
-- **JavaScript**
+- **Java 21**
 
 ### 라이브러리 및 프레임워크
 
-- **Spring Framework 3.2.6**
-- **MyBatis 3.0.3**
-- **JSTL (JavaServer Pages Standard Tag Library) 2.0.0**
-- **JSP (JavaServer Pages)**
+- **Spring Framework 3.3.1**
+- **JPA**
+- **validation**
 - **Lombok**
+- **security:2.5.4**
 
 ### 도구
 
 - **IntelliJ IDEA**
 - **Tomcat**
-- **DBeaver**
+- **DataGrip**
 - **MariaDB 11.3.2**
 - **GitHub**
-- **Open API**
+- **POST MAN**
 - **DBDiagram.io**
 
 ------
-🔗OPEN API
 
-<https://data.seoul.go.kr/dataList/OA-20883/S/1/datasetView.do>
+## 기능
 
-## 데모 영상
-
-➜ 챌린지반
-
-<https://drive.google.com/file/d/1QmhuQ8isJBbyyCVvgJrE54pZex21ZM_I/view?usp=sharing>
-
-➜ 마스터반
-
-<https://drive.google.com/file/d/1stk0lnun0PpQzqLs7YHK_4FXIex9C887/view?usp=sharing>
+회원 가입 기능 구현 여부(매장 점장 및 사용자)
+○ 매장 등록/수정/삭제 기능 구현 여부
+○ 예약 진행(예약 가능 여부 확인 후 예약 진행)
+○ 도착 확인 기능 구현(유효성 필수 체크)
+○ 예약 이용 후 리뷰 작성 기능 구현(예약자인지 확인 및 작성, 수정, 삭제 모두 구현, 작성,
+수정은 작성자만 삭제는 작성자와 관리자 가능)
 
 
 
